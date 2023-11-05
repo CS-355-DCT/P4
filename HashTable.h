@@ -12,23 +12,46 @@ using namespace std;
 template <typename DataType, typename KeyType>
 class HashTable {
 public:
-    HashTable(int initTableSize);
-    HashTable(const HashTable& other);
-    HashTable& operator=(const HashTable& other);
 
-    ~HashTable();
+//TB, idk if this works yet
+    HashTable(int initTableSize)
+    {
+	    tableSize = initTableSize;
 
-    void insert(const DataType& newDataItem, const KeyType& key);
-    bool remove(const KeyType& deleteKey);
-    bool retrieve(const KeyType& searchKey, DataType& returnItem) const;
-    void clear();
+	    dataTable = new LinkedList<DataType, KeyType>[tableSize];
+    }
+    //TB
+    //copy constructor: input HashTable to be copied
+    HashTable(const HashTable& other)
+    {
+	    copyTable(other);
+    }
+    //TB
+    //input HashTable to copy, output the HashTable
+    HashTable& operator=(const HashTable& other)
+    {
+	    copyTable(other);
+	    return other;
+    }
 
-    bool isEmpty() const;
+    //TB
+    //destructor: clears the list
+    ~HashTable()
+    {
+	    clear();
+    }
 
-    void showStructure() const;
+    void insert(const DataType& newDataItem, const KeyType& key) {}
+    bool remove(const KeyType& deleteKey) { return true; }
+    bool retrieve(const KeyType& searchKey, DataType& returnItem) const {return true;}
+    void clear() {}
+
+    bool isEmpty() const {return true;}
+
+    void showStructure() const {}
 
 private:
-    void copyTable(const HashTable& source);
+    void copyTable(const HashTable& source) {}
 
     int tableSize;
     LinkedList<DataType, KeyType>* dataTable;
