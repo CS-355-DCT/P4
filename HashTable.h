@@ -13,12 +13,12 @@ template <typename DataType, typename KeyType>
 class HashTable {
 public:
 
-//TB, idk if this works yet
+//TB, not sure if this is right
     HashTable(int initTableSize)
     {
 	    tableSize = initTableSize;
 
-	    dataTable = new LinkedList<DataType, KeyType>[tableSize];
+	    dataTable = new LinkedList<DataType, KeyType>;
     }
     //TB
     //copy constructor: input HashTable to be copied
@@ -41,17 +41,53 @@ public:
 	    clear();
     }
 
-    void insert(const DataType& newDataItem, const KeyType& key) {}
-    bool remove(const KeyType& deleteKey) { return true; }
-    bool retrieve(const KeyType& searchKey, DataType& returnItem) const {return true;}
-    void clear() {}
+//TB
+    void insert(const DataType& newDataItem, const KeyType& key)
+    {
+	    dataTable->insert(newDataItem, key);
+    }
 
-    bool isEmpty() const {return true;}
+    //TB
+    bool remove(const KeyType& deleteKey)
+    {
+	    return dataTable->remove(deleteKey);
+    }
 
-    void showStructure() const {}
+    //TB
+    bool retrieve(const KeyType& searchKey, DataType& returnItem) const
+    {
+	    return dataTable->retrieve(searchKey, returnItem);
+    }
+    
+    void clear()
+    {
+	    dataTable->clear();
+    }
+
+    bool isEmpty() const
+    {
+	    return dataTable->isEmpty();
+    }
+//TB
+    void showStructure() const 
+    {
+	    dataTable->showStructure();
+    }
 
 private:
-    void copyTable(const HashTable& source) {}
+    //TB
+    void copyTable(const HashTable& source)
+    {
+	    //clear source incase it isn't empty
+	    source.clear();
+
+	    Node<DataType, KeyType>* tracker = dataTable->getHead();
+	    while(tracker != nullptr)
+	    {
+		    source.insert(tracker->data, tracker->key);
+		    tracker = tracker->next;
+	    }
+    }
 
     int tableSize;
     LinkedList<DataType, KeyType>* dataTable;
