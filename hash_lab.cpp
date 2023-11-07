@@ -1,3 +1,9 @@
+// Hash Lab Driver
+// Origin: Dr. Etheridge
+// Group Project #4
+// Thomas Bendall, Drew Clark, Christelle Mbemba
+// 11/7/2023
+
 #include <iostream>
 #include <string>
 #include "HashTable.h"

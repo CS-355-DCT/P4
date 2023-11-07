@@ -1,4 +1,8 @@
 // HashTable.h
+// Origin: Dr. Etheridge
+// Group Project #4
+// Thomas Bendall, Drew Clark, Christelle Mbemba
+// 11/7/2023
 
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
@@ -13,7 +17,7 @@ template <typename DataType, typename KeyType>
 class HashTable {
 public:
 
-//TB, not sure if this is right
+    //TB
     HashTable(int initTableSize)
     {
 	    tableSize = initTableSize;
@@ -41,7 +45,7 @@ public:
 	    clear();
     }
 
-//TB
+    //TB
     void insert(const DataType& newDataItem, const KeyType& key)
     {
 	    dataTable->insert(newDataItem, key);
@@ -58,7 +62,7 @@ public:
     {
 	    return dataTable->retrieve(searchKey, returnItem);
     }
-    
+
     void clear()
     {
 	    dataTable->clear();
@@ -68,7 +72,8 @@ public:
     {
 	    return dataTable->isEmpty();
     }
-//TB
+
+    //TB
     void showStructure() const 
     {
 	    dataTable->showStructure();

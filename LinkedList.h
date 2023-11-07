@@ -1,3 +1,9 @@
+// Linked List
+// Origin: Dr. Etheridge
+// Group Project #4
+// Thomas Bendall, Drew Clark, Christelle Mbemba
+// 11/7/2023
+
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
@@ -110,8 +116,10 @@ template <typename DataType, typename KeyType>
 void LinkedList<DataType, KeyType>::showStructure() const {
     Node<DataType, KeyType>* current = head;
 
+    int count = 0;
     while (current != nullptr) {
-        cout << "[" << current->data.getKey() << ", " << current->data.getValue() << "] ";
+        count++;
+        cout << "Bucket: " << count << "[" << current->data.getKey() << ", " << current->data.getValue() << "] " << endl;
 	current = current->next;
     }
 
