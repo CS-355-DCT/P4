@@ -51,19 +51,43 @@ public:
     //TB
     void insert(const DataType& newDataItem, const KeyType& key)
     {
-	    dataTable[findHash(key)].insert(newDataItem, key);
+	    //Prevents from using the same key, remove this is same keys are allowed.
+	    Node<DataType, KeyType>* tracker = dataTable[newDataItem.hash(key) % tableSize].getHead();
+	    while(tracker != nullptr)
+	    {
+		    if(tracker->key == key)
+		    {
+			    cout << "This key already exists" << endl;
+			    return;
+		    }
+	    }
+
+	    dataTable[newDataItem.hash(key) % tableSize].insert(newDataItem, key);
     }
 
     //TB
     bool remove(const KeyType& deleteKey)
     {
-	    return dataTable[findHash(deleteKey)].remove(deleteKey);
+	    for(int i = 0; i < tableSize; i++)
+	    {
+		    Node<DataType, KeyType>* tracker = dataTable[i].getHead();
+		    while(tracker != nullptr)
+		    {
+			    if(tracker->key == deleteKey)
+			    {
+				    dataTable[i].remove(deleteKey);
+				    return true;
+			    }
+			    tracker = tracker->next;
+		    }
+	    }
+	    return false;
     }
 
     //TB
     bool retrieve(const KeyType& searchKey, DataType& returnItem) const
     {
-	    return dataTable[findHash(searchKey)].retrieve(searchKey, returnItem);
+	    return dataTable[returnItem.hash(searchKey) % tableSize].retrieve(searchKey, returnItem);
     }
 
     void clear()
@@ -108,12 +132,7 @@ private:
 	   	 }
 	    }
     }
-
-    //Doesn;t work yet/ not finished
-    int findHash(const KeyType& key) const
-    {
-	    return 0;
-    }
+    
 
     int tableSize;
     LinkedList<DataType, KeyType>* dataTable;
