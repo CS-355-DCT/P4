@@ -9,6 +9,7 @@
 
 #include "LinkedList.h"
 #include <stdexcept>
+#include <string>
 #include <iostream>
 
 using namespace std;
@@ -18,11 +19,11 @@ class HashTable {
 public:
 
     //TB
+    //Initializes table size, and dataTable
     HashTable(int initTableSize)
     {
 	    tableSize = initTableSize;
-
-	    dataTable = new LinkedList<DataType, KeyType>;
+	    dataTable = new LinkedList<DataType, KeyType>[tableSize];
     }
     //TB
     //copy constructor: input HashTable to be copied
@@ -34,8 +35,10 @@ public:
     //input HashTable to copy, output the HashTable
     HashTable& operator=(const HashTable& other)
     {
-	    copyTable(other);
-	    return other;
+	    for(int i = 0; i < other.tableSize; i++)
+		    dataTable[i] = other.dataTable[i];
+
+	    return *this;
     }
 
     //TB
@@ -48,35 +51,45 @@ public:
     //TB
     void insert(const DataType& newDataItem, const KeyType& key)
     {
-	    dataTable->insert(newDataItem, key);
+	    dataTable[findHash(key)].insert(newDataItem, key);
     }
 
     //TB
     bool remove(const KeyType& deleteKey)
     {
-	    return dataTable->remove(deleteKey);
+	    return dataTable[findHash(deleteKey)].remove(deleteKey);
     }
 
     //TB
     bool retrieve(const KeyType& searchKey, DataType& returnItem) const
     {
-	    return dataTable->retrieve(searchKey, returnItem);
+	    return dataTable[findHash(searchKey)].retrieve(searchKey, returnItem);
     }
 
     void clear()
     {
-	    dataTable->clear();
+	    for(int i = 0; i < tableSize; i++)
+		    dataTable[i].clear();
     }
 
     bool isEmpty() const
     {
-	    return dataTable->isEmpty();
+	    for(int i = 0; i < tableSize; i++)
+	    {
+		    if(!dataTable[i].isEmpty())
+			    return false;
+	    }
+	    return true;
     }
 
     //TB
     void showStructure() const 
     {
-	    dataTable->showStructure();
+	    for(int i = 0; i < tableSize; i++)
+	    {
+		    cout << "Table " << i << ":";
+		    dataTable[i].showStructure();
+	    }
     }
 
 private:
@@ -85,13 +98,21 @@ private:
     {
 	    //clear source incase it isn't empty
 	    source.clear();
-
-	    Node<DataType, KeyType>* tracker = dataTable->getHead();
-	    while(tracker != nullptr)
+	    for(int i = 0; i < tableSize; i++)
 	    {
-		    source.insert(tracker->data, tracker->key);
-		    tracker = tracker->next;
+	   	 Node<DataType, KeyType>* tracker = dataTable[i].getHead();
+	   	 while(tracker != nullptr)
+	   	 {
+			 source.dataTable[i](tracker->data, tracker->key);
+		   	 tracker = tracker->next;
+	   	 }
 	    }
+    }
+
+    //Doesn;t work yet/ not finished
+    int findHash(const KeyType& key) const
+    {
+	    return 0;
     }
 
     int tableSize;
